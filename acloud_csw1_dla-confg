@@ -1,0 +1,335 @@
+
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ACloud_CSW1_DLA
+!
+boot-start-marker
+boot-end-marker
+!
+!
+username wilfried1 privilege 15 secret 5 $1$xFwd$GDRPLEyBn3pfocuXMuyGA0
+username wilfried privilege 15 secret 5 $1$a7.C$H/mIwTwUCiYFWP7MqFYyQ.
+no aaa new-model
+switch 1 provision ws-c3750g-48ts
+system mtu routing 1500
+ip subnet-zero
+ip routing
+no ip dhcp use vrf connected
+ip dhcp excluded-address 172.16.40.10 172.16.40.100
+!
+ip dhcp pool Pool40
+   network 172.16.40.0 255.255.255.0
+   default-router 172.16.40.1 
+   domain-name overlay.acloud.cm
+   lease 2
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-1397886336
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1397886336
+ revocation-check none
+ rsakeypair TP-self-signed-1397886336
+!
+!
+crypto pki certificate chain TP-self-signed-1397886336
+ certificate self-signed 01
+  30820248 308201B1 A0030201 02020101 300D0609 2A864886 F70D0101 04050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31333937 38383633 3336301E 170D3933 30333031 30303032 
+  35385A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 33393738 
+  38363333 3630819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100C965 2EF43EE8 8FCEEACB 0F0652A1 A3A510D9 E64AC19F 8D7AEA1A F7E01B1A 
+  29DC2F35 71E52D55 B1379772 F565574C 80D3FC9F D68C911A F47451CE E83FD824 
+  7178716B FA137533 A8FFDF9D F0D24737 A3C6DB7E A694887E 9F2B5DB8 928BF488 
+  1A20707E 28444F21 9BF9B7E2 6E94D7CE AC53BB0F 3F5E6A36 C35D9882 2C5D7DE8 
+  FC0B0203 010001A3 70306E30 0F060355 1D130101 FF040530 030101FF 301B0603 
+  551D1104 14301282 1041436C 6F75645F 43535731 5F444C41 2E301F06 03551D23 
+  04183016 8014E8A5 181A03B7 10122B4A F5E8B3E2 E86615B3 3E45301D 0603551D 
+  0E041604 14E8A518 1A03B710 122B4AF5 E8B3E2E8 6615B33E 45300D06 092A8648 
+  86F70D01 01040500 03818100 B520E741 E2EE12B6 D8E60288 8934AC68 36753D95 
+  CD1E0234 70F033FB 1CC2F0D9 D61C9B05 320EED41 3B626567 61139019 4BFCEEB9 
+  CB9E54BB 3D7F8A37 9E95F411 381C8BA1 0EF7CE63 0F593C80 00D592B1 4476516F 
+  2F213D08 3E525085 84C3B921 DACB28C1 825730A6 3E2D7B35 30197723 8B2E36B7 
+  3993AB23 E45470F3 E35E2622
+  quit
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+interface Port-channel1
+ switchport access vlan 5
+ switchport mode access
+!
+interface Port-channel5
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Port-channel6
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Port-channel9
+ switchport access vlan 45
+ switchport mode access
+!
+interface Port-channel15
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/2
+!
+interface GigabitEthernet1/0/3
+!
+interface GigabitEthernet1/0/4
+!
+interface GigabitEthernet1/0/5
+ switchport access vlan 5
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/6
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/7
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/8
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/9
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/10
+ description vMotion_Interface
+ switchport access vlan 4
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/11
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/12
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/13
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/14
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+!
+interface GigabitEthernet1/0/17
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/18
+ switchport access vlan 45
+ switchport mode access
+ channel-group 9 mode active
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/19
+ description toHost1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/20
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/21
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/22
+!
+interface GigabitEthernet1/0/23
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/24
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/25
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/26
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/27
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/28
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/29
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/30
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/31
+!
+interface GigabitEthernet1/0/32
+!
+interface GigabitEthernet1/0/33
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/34
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/35
+ switchport access vlan 5
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/36
+ switchport access vlan 55
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/37
+ switchport access vlan 10
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/38
+ no switchport
+ no ip address
+!
+interface GigabitEthernet1/0/39
+!
+interface GigabitEthernet1/0/40
+!
+interface GigabitEthernet1/0/41
+!
+interface GigabitEthernet1/0/42
+!
+interface GigabitEthernet1/0/43
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/44
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/45
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/46
+ description AM_INTERNET
+ switchport access vlan 826
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/47
+ description INFRA_INTERNET
+ switchport access vlan 805
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/48
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/49
+ switchport access vlan 826
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/50
+!
+interface GigabitEthernet1/0/51
+!
+interface GigabitEthernet1/0/52
+!
+interface Vlan1
+ ip address 192.168.2.13 255.255.255.0
+!
+interface Vlan5
+ ip address 10.10.1.252 255.255.255.0
+!
+interface Vlan6
+ ip address 10.23.23.10 255.255.255.0
+!
+interface Vlan10
+ ip address 10.100.1.15 255.255.255.0
+!
+interface Vlan16
+ no ip address
+!
+interface Vlan40
+ ip address 172.16.40.1 255.255.255.0
+!
+interface Vlan55
+ ip address 10.100.2.254 255.255.255.0
+!
+ip classless
+ip http server
+ip http secure-server
+!
+!
+control-plane
+!
+alias exec shtrun do sh int trunk
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+ international
+line vty 0 4
+ login local
+ transport preferred none
+ transport input telnet ssh
+ transport output none
+line vty 5 15
+ login local
+ transport preferred none
+ transport input telnet ssh
+ transport output none
+!
+end
